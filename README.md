@@ -7,6 +7,7 @@ Japanese radio relay server for Volumio
 burroさんの投稿を参考に、Volumio2で動くように手を加えてみました。
 * http://burro.hatenablog.com/entry/2019/02/16/175836
 * https://github.com/burrocargado/RadioRelayServer
+基本、丸パクリです<(_ _)>
 
 ## Requirement
 * volumio2
