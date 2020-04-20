@@ -14,12 +14,9 @@ Japanese radio relay server for Volumio
 ## Usage
 
 ## Install
-
-## Contribution
-
-## Licence
-
-[MIT](https://github.com/tcnksm/tool/blob/master/LICENCE)
+あくまで、私のやった方法です。
+* FFMPEGのインストール
+https://github.com/bushev/rpi-ffmpeg からbinaryをダウンロードし/home/volumio/binに入れる
 
 ## Author
 
