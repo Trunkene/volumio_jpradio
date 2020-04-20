@@ -17,7 +17,6 @@ Japanese radio relay server for Volumio
 ※ あくまで、私のやった方法です。
 
 FFMPEGのインストール
-
 ```bash
 $ mkdir bin
 $ cd bin
@@ -26,7 +25,6 @@ $chmod 755 ffmpeg
 ```
 
 python3、flaskの用意
-
 ```bash
 $ sudo apt-get update
 $ sudo apt-get -y install apt-utils apt-show-versions
@@ -37,6 +35,11 @@ $ mkdir radiko
 $ python3 -m venv /home/volumio/radiko
 $ source /home/volumio/radiko/venv/bin/activate
 $ pip3 install flask
+```
+
+プロジェクトのクローン
+```bash
+git clone https://github.com/Trunkene/volumio_jpradio
 ```
 
 ## Author
