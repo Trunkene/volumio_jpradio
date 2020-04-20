@@ -41,7 +41,14 @@ $ pip3 install flask
 ```bash
 git clone https://github.com/Trunkene/volumio_jpradio
 ```
-
+自動起動
+```bash
+$ sudo apt-get -y install supervisor
+$ sudo vi /etc/supervisor/supervisord.conf
+<下記を変更>
+logfile=/var/log/supervisor/supervisord.log --> logfile=/var/log/supervisord.log
+childlogdir=/var/log/supervisor --> childlogdir=/var/log/
+```
 ## Author
 
 [Trunkene](https://github.com/Trunkene)
