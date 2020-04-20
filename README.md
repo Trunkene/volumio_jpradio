@@ -12,6 +12,7 @@ Japanese radio relay server for Volumio
 * ffmpeg
 
 ## Usage
+下記インストール後、raspberry-piを再起動し、Volumio2のPlaylist > Radikoから選局
 
 ## Install
 ※ あくまで、私のやった方法です。
