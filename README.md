@@ -15,6 +15,7 @@ Japanese radio relay server for Volumio
 
 ## Install
 ※ あくまで、私のやった方法です。
+Volumio2が普通に動作している状態で、sshでvolumioユーザーで入って作業。
 
 FFMPEGのインストール
 ```bash
