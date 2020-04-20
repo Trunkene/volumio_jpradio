@@ -51,6 +51,8 @@ $ sudo vi /etc/supervisor/supervisord.conf
 logfile=/var/log/supervisor/supervisord.log --> logfile=/var/log/supervisord.log
 childlogdir=/var/log/supervisor --> childlogdir=/var/log/
 ```
+## Acknowledgments
+
 ## Author
 
 [Trunkene](https://github.com/Trunkene)
