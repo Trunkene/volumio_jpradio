@@ -22,7 +22,7 @@ FFMPEGのインストール
 $ mkdir bin
 $ cd bin
 https://github.com/bushev/rpi-ffmpeg からbinaryをダウンロードし/home/volumio/binに入れる
-$chmod 755 ffmpeg
+$ chmod 755 ffmpeg
 ```
 
 python3、flaskの用意
