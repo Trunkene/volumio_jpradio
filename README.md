@@ -5,11 +5,11 @@ Japanese radio relay server for Volumio
 
 ## Description
 
-## Demo
-
-## VS. 
-
 ## Requirement
+* volumio2
+* python
+* flask
+* ffmpeg
 
 ## Usage
 
