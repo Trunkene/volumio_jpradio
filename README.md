@@ -5,8 +5,8 @@ Japanese radio relay server for Volumio
 
 ## Description
 burroさんの投稿を参考に、Volumio2で動くように手を加えてみました。
-http://burro.hatenablog.com/entry/2019/02/16/175836
-https://github.com/burrocargado/RadioRelayServer
+* http://burro.hatenablog.com/entry/2019/02/16/175836
+* https://github.com/burrocargado/RadioRelayServer
 
 ## Requirement
 * volumio2
