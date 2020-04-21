@@ -27,7 +27,7 @@ FFMPEGのインストール
 ```bash
 $ mkdir bin
 $ cd bin
-https://github.com/bushev/rpi-ffmpeg からbinaryをダウンロードし/home/volumio/binに入れる
+# https://github.com/bushev/rpi-ffmpeg からbinaryをダウンロードし/home/volumio/binに入れる
 $ chmod 755 ffmpeg
 ```
 
@@ -52,7 +52,8 @@ git clone https://github.com/Trunkene/volumio_jpradio
 ```bash
 $ sudo apt-get -y install supervisor
 $ sudo vi /etc/supervisor/supervisord.conf
-<下記を変更>
+
+# 下記を変更
 logfile=/var/log/supervisor/supervisord.log --> logfile=/var/log/supervisord.log
 childlogdir=/var/log/supervisor --> childlogdir=/var/log/
 ```
