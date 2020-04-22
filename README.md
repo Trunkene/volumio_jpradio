@@ -39,7 +39,7 @@ $ sudo apt-get -y install vim
 $ sudo apt-get -y install python3 python3-setuptools python3-venv python3-dev
 $ sudo easy_install3 pip
 $ mkdir radiko
-$ python3 -m venv /home/volumio/radiko
+$ python3 -m venv /home/volumio/radiko/venv
 $ source /home/volumio/radiko/venv/bin/activate
 $ pip3 install flask
 ```
