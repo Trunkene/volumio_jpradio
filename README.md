@@ -46,7 +46,7 @@ $ pip3 install flask
 
 プロジェクトのクローン
 ```bash
-git clone https://github.com/Trunkene/volumio_jpradio
+git clone https://github.com/Trunkene/volumio_jpradio .
 ```
 
 動作確認
