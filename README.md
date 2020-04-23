@@ -4,20 +4,19 @@ volumio_jpradio
 Japanese radio relay server for Volumio
 
 ## Description
-burroさんの投稿を参考に、Volumio2で動くように手を加えてみました。
-* http://burro.hatenablog.com/entry/2019/02/16/175836
-* https://github.com/burrocargado/RadioRelayServer
-
+[burroさんの投稿](#acknowledgments)を参考に、Volumio2で動くように手を加えてみました。
 基本、丸パクリです<(_ _)>
 
 ## Requirement
 * volumio2
+
+以下についての後述[Install](#install)で導入方法を説明。
 * python
 * flask
 * ffmpeg
 
 ## Usage
-下記インストール後、raspberry-piを再起動し、Volumio2のPlaylist > Radikoから選局
+下記インストール後、raspberry-piを再起動し、Volumio2の「Playlist」>「Radiko」から選局
 
 ## Install
 ※ あくまで、私のやった方法です。
@@ -54,7 +53,7 @@ git clone https://github.com/Trunkene/volumio_jpradio
 $ cd ~/bin
 $ cmod 755 radiko
 $ radiko
-# Volumio2のPlaylist > Radikoから選局
+# Volumio2の「Playlist」>「Radiko」から選局
 ```
 
 自動起動
@@ -70,6 +69,8 @@ $ sudo cp ~/supervisor/radiko.conf /etc/supervisor/conf.d/
 ```
 
 ## Acknowledgments
+* [NanoPi NEOにインストールしたMPDでradikoを聞く](http://burro.hatenablog.com/entry/2019/02/16/175836)
+* [Github for Streaming server for relaying "radiko" radio stream to Music Player Daemon (MPD)](https://github.com/burrocargado/RadioRelayServer)
 
 ## Author
 
