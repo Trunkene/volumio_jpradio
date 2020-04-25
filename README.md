@@ -4,19 +4,22 @@ volumio_jpradio
 Japanese radio relay server for Volumio
 
 ## Description
-[burroさんの投稿](#acknowledgments)を参考に、Volumio2で動くように手を加えてみました。
+Volumio2でラジオを聞く場合、[こちらの記事](https://monoworks.co.jp/post/2019-05-05-listen-to-radiko-on-volumio/)
+の方法で可能ですが、いちいちLogitech Media Serverなるものに切り替えるので使い勝手が
+いまひとつよくありません。
+そんな折、[burroさんの投稿](#acknowledgments)を見つけ、Volumio2で動くように手を加えてみました。
 基本、丸パクリです<(_ _)>
 
 ## Requirement
 * volumio2
 
-以下についての後述[Install](#install)で導入方法を説明。
+以下も必要ですが導入方法は後述の[Install](#install)で説明。
 * python
 * flask
 * ffmpeg
 
 ## Usage
-下記インストール後、raspberry-piを再起動し、Volumio2の「Playlist」>「Radiko」から選局
+下記インストール後、raspberry-piを再起動し、Volumio2の「Playlist」>「Radiko」から選局。
 
 ## Install
 ※ あくまで、私のやった方法です。
