@@ -176,7 +176,7 @@ class Radiko():
 
     def play(self, station):
         self.logger.info('playing {}'.format(station))
-        if station in self.stations:
+        if station in Radiko.stations:
             url = (
                     'http://f-radiko.smartstream.ne.jp/'
                     + station +
