@@ -305,7 +305,7 @@ class Radiko():
             url = url_template
             for (
                     station_id,
-                    (name, region_name, area_id, area_name)
+                    (name, region_name, area_id, area_name, banner_url)
             ) in Radiko.stations.items():
                 station_str = '{} / {}'.format(area_name.capitalize(), name)
                 f.write('#EXTINF:-1,{}\n'.format(station_str))
