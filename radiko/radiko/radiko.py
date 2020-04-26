@@ -255,7 +255,7 @@ class Radiko():
                 current_station = {}
                 for e in station:
                     if e.tag in ['id', 'name',
-                                 'ascii_name', 'areafree', 'timefree', 'area_id']:
+                                 'ascii_name', 'areafree', 'timefree', 'area_id', 'banner']:
                         value = e.itertext().__next__()
                         current_station[e.tag] = value
                 data['stations'].append(current_station)
@@ -284,6 +284,7 @@ class Radiko():
             for s in region['stations']:
                 station_id = s['id']
                 region_name = region_data['region_name']
+                banner_url = s['banner']
                 area_id = s['area_id']
                 area_name = re.sub(
                     '([^ ]+) JAPAN', '\\1',
@@ -293,8 +294,7 @@ class Radiko():
                 if (self.login_state or
                         station_id in Radiko.area_data[Radiko.area]['stations']):
                     stations[station_id] = (
-                        name, region_name, area_id, area_name
-                    )
+                        name, region_name, area_id, area_name, banner_url)
         Radiko.stations = stations
 
     def gen_playlist_mpd(self, url_template, outfile):
@@ -319,13 +319,14 @@ class Radiko():
             idx = 0
             for (
                 station_id,
-                (name, region_name, area_id, area_name)
+                (name, region_name, area_id, area_name, banner_url)
             ) in Radiko.stations.items():
                 entry_str = ''
                 if idx != 0:
                     entry_str += ','
                 station_str = '{} / {}'.format(area_name.capitalize(), name)
-                entry_str += '{{"service":"webradio","title":"{}","uri":"{}"}}'.format(station_str, url.format(station_id))
+                entry_str += '{{"service":"webradio","title":"{}","uri":"{}","albumart":"{}"}}'\
+                    .format(station_str, url.format(station_id), banner_url)
                 f.write(entry_str)
                 idx += 1
             f.write(']\n')
