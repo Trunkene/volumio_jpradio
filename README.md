@@ -4,7 +4,7 @@ volumio_jpradio
 Japanese radio relay server for Volumio
 
 ## Description
-Volumio2でラジオを聞く場合、[こちらの記事](https://monoworks.co.jp/post/2019-05-05-listen-to-radiko-on-volumio/)
+Volumio2でRadikoを聞く場合、[こちらの記事](https://monoworks.co.jp/post/2019-05-05-listen-to-radiko-on-volumio/)
 の方法で可能ですが、いちいちLogitech Media Serverなるものに切り替えるので使い勝手が
 いまひとつよくありません。
 そんな折、[burroさんの投稿](#acknowledgments)を見つけ、Volumio2で動くように手を加えてみました。
