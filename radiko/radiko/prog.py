@@ -2,6 +2,7 @@
 
 from urllib import request
 import xml.etree.ElementTree as ET
+import sqlite3
 from datetime import datetime, timedelta, timezone
 from .db import get_db
 
@@ -46,15 +47,17 @@ class RdkProg():
             db.execute(sql, (dao['station'], dao['id'], dao['ft'], dao['tt'], dao['title'], dao['pfm']))
             db.commit()
         except sqlite3.Error:
-            # do nothing
-            pass
+            db.rollback()
 
     def clearOldProgram(self):
         curdt = datetime.now(JST).strftime('%Y%m%d%H%M')
         db = self.getDb()
-        sql = 'delete from prog where tt < ?'
-        db.execute(sql,  (curdt, ))
-        db.commit()
+        try:
+            sql = 'delete from prog where tt < ?'
+            db.execute(sql,  (curdt, ))
+            db.commit()
+        except sqlite3.Error:
+            db.rollback()
 
     def printAll(self):
         db = self.getDb()
