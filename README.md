@@ -10,6 +10,8 @@ Volumio2でRadikoを聞く場合、[こちらの記事](https://monoworks.co.jp/
 そんな折、[burroさんの投稿](#acknowledgments)を見つけ、Volumio2で動くように手を加えてみました。
 基本、丸パクリです<(_ _)>
 
+2020/01/10 番組名をプレーヤー側で表示できるようにしました。
+
 ## Requirement
 * volumio2
 
@@ -51,10 +53,21 @@ $ pip3 install flask
 $ git clone https://github.com/Trunkene/volumio_jpradio .
 ```
 
+番組情報の自動更新
+```bash
+$ cd ~/bin
+$ chmod 755 pgupdate.sh
+sudo apt-get -y install cron
+crontab -e
+
+#下記を登録 (11:01,23:01に更新)
+01 11,23 * * * /home/volumio/bin/pgupdate.sh > /dev/null 2>&1
+```
+
 動作確認
 ```bash
 $ cd ~/bin
-$ cmod 755 radiko
+$ chmod 755 radiko
 $ radiko
 # Volumio2の「Playlist」>「Radiko」から選局
 ```

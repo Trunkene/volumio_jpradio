@@ -1,3 +1,5 @@
+# -*- config:utf-8 -*-
+
 import urllib.request, urllib.error, urllib.parse
 import os
 import re
@@ -9,6 +11,9 @@ from collections import OrderedDict
 from http.cookiejar import FileCookieJar
 import xml.etree.ElementTree as ET
 import logging
+import fcntl, select
+from .prog import RdkProg
+from .icymeta import IcyMetadata
 
 class Radiko():
     LOGIN_URL = "https://radiko.jp/ap/member/login/login"
@@ -27,7 +32,7 @@ class Radiko():
     opener = None
 
     def __init__(
-            self, acct={}, playlist={}, force_get_stations=False, logger=None):
+            self, tgt_env='VOLUMIO', acct={}, playlist={}, force_get_stations=False, logger=None):
         Radiko.inst_ctr += 1
         default_logger = logging.getLogger(__name__)
         default_logger.addHandler(logging.NullHandler)
@@ -57,11 +62,16 @@ class Radiko():
             self.logger.info('getting stations')
             self.get_stations()
             if playlist:
-               # self.gen_playlist_mpd(
-               self.gen_playlist_volumio(
-                    playlist['url'],
-                    playlist['file']
-                )
+                if tgt_env == 'VOLUMIO':
+                    self.gen_playlist_volumio(
+                        playlist['url'],
+                        playlist['file']
+                    )
+                else:
+                    self.gen_playlist_mpd(
+                        playlist['url'],
+                        playlist['file']
+                    )
 
     def get_token(self):
         res = self.auth1()
@@ -202,17 +212,30 @@ class Radiko():
                 )
                 self.logger.debug('started subprocess: group id {}'
                                   .format(os.getpgid(proc.pid)))
-
+                # Set stdout to NON-Block
+                fcntl.fcntl(
+                    proc.stdout.fileno(),
+                    fcntl.F_SETFL,
+                    fcntl.fcntl(proc.stdout.fileno(), fcntl.F_GETFL) | os.O_NONBLOCK,
+                )
                 try:
-                    while True:
-                        out = proc.stdout.read(512)
-                        if proc.poll() is not None:
-                            self.logger.error(
-                                'subprocess died: {}'.format(station)
-                            )
-                            break
-                        if out:
-                            yield out
+                    meta = IcyMetadata()
+                    prg = RdkProg()
+                    while proc.poll() == None:
+                        p = prg.getCurProgram(station)
+                        ti = None
+                        if p:
+                            ti = (p['pfm'] if p['pfm'] else '') + ' - ' + (p['title'] if p['title'] else '')
+                        meta.setStreamTitle(ti)
+                        # Check if data is ready
+                        readx = select.select([proc.stdout.fileno()], [], [])[0]
+                        if readx:
+                            out = proc.stdout.read()
+                            if out:
+                                yield meta.transform(out)
+                    self.logger.error(
+                        'subprocess died: {}'.format(station)
+                    )
                 finally:
                     self.logger.info('stop playing {}'.format(station))
                     if not proc.poll():

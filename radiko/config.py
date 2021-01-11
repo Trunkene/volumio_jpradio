@@ -1,3 +1,6 @@
+# Environment [MPD / VOLUMIO]
+TGT_ENV = 'VOLUMIO'
+
 # Statement for enabling the development environment
 DEBUG = True
 

@@ -2,3 +2,4 @@ venv/
 .vscode/
 *.pyc
 __pycache__
+*.db
