@@ -1,5 +1,0 @@
-{
-    "python.pythonPath": "${workspaceFolder}/radiko/venv/bin/python3",
-    "python.venvPath": "${workspaceFolder}/radiko/venv",
-    "python.testing.cwd": "${workspaceFolder}/radiko"
-}
