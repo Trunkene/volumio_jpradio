@@ -59,8 +59,7 @@ def create_app():
 
     def pgupdate():
         prg = RdkProg()
-        for station in Radiko.stations:
-            prg.updatePrograms(station)
+        prg.updatePrograms(Radiko.area)
         prg.clearOldProgram()
 
     @app.route('/radiko/pgupdate')

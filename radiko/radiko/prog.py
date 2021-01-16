@@ -9,7 +9,7 @@ from .db import get_db
 JST = timezone(timedelta(hours=+9), 'JST')
 
 class RdkProg():
-    PROG_URL = 'http://radiko.jp/v3/program/station/date/{}/{}.xml'
+    PROG_URL = 'http://radiko.jp/v3/program/date/{}/{}.xml'
 
     def __init__(self):
         self.db = None
@@ -65,9 +65,9 @@ class RdkProg():
         c = db.execute(sql)
         print(c.fetchall())
 
-    def updatePrograms(self, sid):
+    def updatePrograms(self, area):
         curdt = datetime.now().strftime('%Y%m%d')
-        url = RdkProg.PROG_URL.format(curdt, sid)
+        url = RdkProg.PROG_URL.format(curdt, area)
 
         xml = request.urlopen(url)
 
@@ -76,19 +76,19 @@ class RdkProg():
         prog_data = []
         for stations in root:
             if stations.tag == 'stations':
-                station = stations[0]
-                station_id = station.attrib['id']
-                for progs in station:
-                    for prog in progs:
-                        if prog.tag == 'prog':
-                            prog_data = {}
-                            prog_data['station'] = station_id
-                            prog_data['id'] = station_id + prog.attrib['id']
-                            prog_data['ft'] = prog.attrib['ft'][0:12]
-                            prog_data['tt'] = prog.attrib['to'][0:12]
-                            for e in prog:
-                                if e.tag in ['title', 'pfm']:     
-                                    value = e.text
-                                    prog_data[e.tag] = value
-                            self.putProgram(prog_data)
+                for station in stations:
+                    station_id = station.attrib['id']
+                    for progs in station:
+                        for prog in progs:
+                            if prog.tag == 'prog':
+                                prog_data = {}
+                                prog_data['station'] = station_id
+                                prog_data['id'] = station_id + prog.attrib['id']
+                                prog_data['ft'] = prog.attrib['ft'][0:12]
+                                prog_data['tt'] = prog.attrib['to'][0:12]
+                                for e in prog:
+                                    if e.tag in ['title', 'pfm']:     
+                                        value = e.text
+                                        prog_data[e.tag] = value
+                                self.putProgram(prog_data)
   

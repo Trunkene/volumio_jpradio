@@ -60,8 +60,8 @@ $ chmod 755 pgupdate.sh
 sudo apt-get -y install cron
 crontab -e
 
-#下記を登録 (11:01,23:01に更新)
-01 11,23 * * * /home/volumio/bin/pgupdate.sh > /dev/null 2>&1
+#下記を登録 (3:01,9:01,15:01に更新: UTCで指定)
+01 0,6,18 * * * /home/volumio/bin/pgupdate.sh > /dev/null 2>&1
 ```
 
 動作確認
