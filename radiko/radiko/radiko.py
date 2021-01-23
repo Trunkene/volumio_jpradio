@@ -184,6 +184,12 @@ class Radiko():
 
         return lines[0]
 
+    def getStationAsciiName(self, station):
+        stationName = ''
+        if station in Radiko.stations:
+            stationName = Radiko.stations[station][1]
+        return stationName
+
     def play(self, station):
         self.logger.info('playing {}'.format(station))
         if station in Radiko.stations:
@@ -314,10 +320,11 @@ class Radiko():
                     Radiko.area_data[area_id]['area_name']
                 )
                 name = s['name']
+                ascii_name = s['ascii_name']
                 if (self.login_state or
                         station_id in Radiko.area_data[Radiko.area]['stations']):
                     stations[station_id] = (
-                        name, region_name, area_id, area_name, banner_url)
+                        name, ascii_name, region_name, area_id, area_name, banner_url)
         Radiko.stations = stations
 
     def gen_playlist_mpd(self, url_template, outfile):
@@ -328,7 +335,7 @@ class Radiko():
             url = url_template
             for (
                     station_id,
-                    (name, region_name, area_id, area_name, banner_url)
+                    (name, ascii_name, region_name, area_id, area_name, banner_url)
             ) in Radiko.stations.items():
                 station_str = '{} / {}'.format(area_name.capitalize(), name)
                 f.write('#EXTINF:-1,{}\n'.format(station_str))
@@ -342,7 +349,7 @@ class Radiko():
             idx = 0
             for (
                 station_id,
-                (name, region_name, area_id, area_name, banner_url)
+                (name, ascii_name, region_name, area_id, area_name, banner_url)
             ) in Radiko.stations.items():
                 entry_str = ''
                 if idx != 0:

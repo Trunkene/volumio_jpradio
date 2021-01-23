@@ -52,7 +52,7 @@ def create_app():
         response.content_type = "audio/aac"
         response.cache_control.no_cache = True
         response.cache_control.no_store = True
-        response.headers['icy-name'] = 'Radiko'
+        response.headers['icy-name'] = rdk.getStationAsciiName(station_id)
         response.headers['icy-metaint'] = IcyMetadata.META_INT
         logger.debug('get returning response')
         return response
