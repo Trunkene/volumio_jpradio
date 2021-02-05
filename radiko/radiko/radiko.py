@@ -252,13 +252,12 @@ class Radiko():
         else:
             self.logger.error('{} not in available stations'.format(station))
 
-    def download(self, station, ft, to):
+    def download(self, station, ft, to, outfile):
         url = (
                 'https://radiko.jp/v2/api/ts/playlist.m3u8?station_id='
                 + station +
                 '&l=15&ft=' + ft + '&to=' + to
         )
-        outfile = "{}_{}_{}.mp4".format(station, ft, to)
         token, area_id = self.get_token()
         m3u8 = self.gen_temp_chunk_m3u8_url(url, token)
         cmd = (
@@ -269,7 +268,10 @@ class Radiko():
             cmd, shell=True, stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT, preexec_fn=os.setsid
         )
+        self.logger.debug('started subprocess: group id {}'
+                                  .format(os.getpgid(proc.pid)))
         proc.wait()
+        self.logger.debug('finish')
 
     def get_stations(self):
         res = urllib.request.urlopen(Radiko.CHANNEL_FULL_URL)

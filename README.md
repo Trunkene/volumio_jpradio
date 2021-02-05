@@ -32,6 +32,8 @@ FFMPEGのインストール
 $ mkdir bin
 $ cd bin
 # https://github.com/bushev/rpi-ffmpeg からbinaryをダウンロードし/home/volumio/binに入れる
+# (追記) https://www.johnvansickle.com/ffmpeg/の方がhttpsに対応しているのでこちらが将来的にもbetter.
+# armhf - Raspberry-pi 3以降, armel - Raspberry-pi 2以前
 $ chmod 755 ffmpeg
 ```
 
