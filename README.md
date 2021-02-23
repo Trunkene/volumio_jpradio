@@ -9,7 +9,8 @@ Volumio2でRadikoを聞く場合、[こちらの記事](https://monoworks.co.jp/
 そんな折、[burroさんの投稿](#acknowledgments)を見つけ、Volumio2で動くように手を加えてみました。
 基本、丸パクリです<(_ _)>
 
-2020/01/10 番組名をプレーヤー側で表示できるようにしました。
++ 2021/01/10 番組名をプレーヤー側で表示できるようにしました。
++ 2021/02.23 TimeFree Downloaderを追加
 
 ## Requirement
 * volumio2
@@ -25,6 +26,12 @@ Volumio2でRadikoを聞く場合、[こちらの記事](https://monoworks.co.jp/
 ## Install
 ※ あくまで、私のやった方法です。
 Volumio2が普通に動作している状態で、sshでvolumioユーザーで入って作業。
+
+crontabを日本時間にするためTimezoneを変更
+```
+$ sudo dpkg-reconfigure tzdata
+# Asia→Tokyoを選択
+```
 
 FFMPEGのインストール
 ```bash
@@ -61,7 +68,7 @@ sudo apt-get -y install cron
 crontab -e
 
 #下記を登録 (3:01,9:01,15:01に更新: UTCで指定)
-01 0,6,18 * * * /home/volumio/bin/pgupdate.sh > /dev/null 2>&1
+01 3,9,15 * * * /home/volumio/bin/pgupdate.sh > /dev/null 2>&1
 ```
 
 動作確認
@@ -87,17 +94,11 @@ $ sudo cp ~/supervisor/radiko.conf /etc/supervisor/conf.d/
 ## TimeFree Downloader
 7日前までの番組をDLするコマンドです。cronに設定すると予約録音のように使えます。
 
-ffmpegを日本語のメタを引数に呼び出すためロケールを設定
+ffmpegを日本語のメタをパラメーターにつけて呼び出すためロケールを設定
 ```
 $ sudo locale-gen ja_JP.UTF-8
 $ sudo dpkg-reconfigure locales
 # ja_JP.UTF-8 UTF-8 をgenerateしdefaultに設定
-```
-
-crontabを日本時間にするためTimezoneを変更
-```
-$ sudo dpkg-reconfigure tzdata
-# Asia→Tokyoを選択
 ```
 
 Usage
