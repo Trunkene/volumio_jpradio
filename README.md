@@ -1,6 +1,5 @@
 volumio_jpradio
 ====
-
 Japanese radio relay server for Volumio
 
 ## Description
@@ -31,8 +30,7 @@ FFMPEGのインストール
 ```bash
 $ mkdir bin
 $ cd bin
-# https://github.com/bushev/rpi-ffmpeg からbinaryをダウンロードし/home/volumio/binに入れる
-# (追記) https://www.johnvansickle.com/ffmpeg/の方がhttpsに対応しているのでこちらが将来的にもbetter.
+# https://www.johnvansickle.com/ffmpeg からダウンロードし /home/volumio/bin に入れる
 # armhf - Raspberry-pi 3以降, armel - Raspberry-pi 2以前
 $ chmod 755 ffmpeg
 ```
@@ -84,6 +82,46 @@ logfile=/var/log/supervisor/supervisord.log --> logfile=/var/log/supervisord.log
 childlogdir=/var/log/supervisor --> childlogdir=/var/log/
 
 $ sudo cp ~/supervisor/radiko.conf /etc/supervisor/conf.d/
+```
+
+## TimeFree Downloader
+7日前までの番組をDLするコマンドです。cronに設定すると予約録音のように使えます。
+
+ffmpegを日本語のメタを引数に呼び出すためロケールを設定
+```
+$ sudo locale-gen ja_JP.UTF-8
+$ sudo dpkg-reconfigure locales
+# ja_JP.UTF-8 UTF-8 をgenerateしdefaultに設定
+```
+
+crontabを日本時間にするためTimezoneを変更
+```
+$ sudo dpkg-reconfigure tzdata
+# Asia→Tokyoを選択
+```
+
+Usage
+```
+$ dlradiko.sh <STATION_ID> <START_DATETIME> <OUTFILE>
+# STATION_ID: 放送局ID
+# START_DATETIME: YYYYMMDDhhmm
+```
+
+メタデータを下記で設定します。Volumioのアルバムやジャンルからアクセスできます。
+```
+アルバム: Radikoタイムフリー
+ジャンル: Broadcast
+```
+
+crontabの設定
+```
+$ crontab -e
+
+# 以下設定例
+PATH=/home/volumio/bin:/usr/local/bin:/usr/bin:/bin
+10 15 * * sat /home/volumio/bin/dlradiko.sh FMT "`date +\%Y\%m\%d`1400" "/mnt/USB/xxxxx/radikotf/FTM_SAT1400.m4a" > /dev/null > 2>&1
+00 17 * * sat /home/volumio/bin/dlradiko.sh FMT "`date +\%Y\%m\%d`1600" "/mnt/USB/xxxxx/radikotf/FMT_SAT1600.m4a" > /dev/null > 2>&1
+00 18 * * sun /home/volumio/bin/dlradiko.sh FMT "`date +\%Y\%m\%d`1700" "/mnt/USB/xxxxx/radikotf/FMT_SUN1700.m4a" > /dev/null > 2>&1
 ```
 
 ## Acknowledgments

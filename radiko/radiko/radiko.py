@@ -24,6 +24,7 @@ class Radiko():
     AUTH1_URL = "https://radiko.jp/v2/api/auth1"
     AUTH2_URL = "https://radiko.jp/v2/api/auth2"
     AUTH_KEY = "bcd151073c03b352e1ef2fd66c32209da9ca0afa"
+    PROG_DAILY_URL = "https://radiko.jp/v3/program/station/date/{}/{}.xml"
     area_data = {}
     station_data = None
     stations = None
@@ -252,7 +253,22 @@ class Radiko():
         else:
             self.logger.error('{} not in available stations'.format(station))
 
-    def download(self, station, ft, to, outfile):
+    def download(self, station, ft, outfile):
+        url = Radiko.PROG_DAILY_URL.format(ft[0:8], station)
+        res = urllib.request.urlopen(url)
+        xml_string = res.read()
+        root = ET.fromstring(xml_string)
+        progs = root.find('stations').find('station').find('.progs')
+        for prog in progs:
+            if prog.get('ft') == ft:
+                to = prog.get('to')
+                title = prog.find('title').text
+                pfm = prog.find('pfm').text
+                img = prog.find('img').text
+                self._download(station, ft, to, outfile, None, title, pfm) # Fail if img is set on Volumio
+                break
+
+    def _download(self, station, ft, to, outfile, mAlbumArt=None, mTitle=None, mArtist=None):
         url = (
                 'https://radiko.jp/v2/api/ts/playlist.m3u8?station_id='
                 + station +
@@ -260,18 +276,28 @@ class Radiko():
         )
         token, area_id = self.get_token()
         m3u8 = self.gen_temp_chunk_m3u8_url(url, token)
+        param = {}
+        param['album'] = "-metadata album='Radikoタイムフリー'"
+        param['album_artist'] = "-metadata album_artist='various'"
+        param['genre'] = "-metadata genre='Broadcast'"
+        param['albumart'] = ''
+        if mAlbumArt is not None:
+            param['albumart'] = "-i '{}' -map 0:a -map 1:v -disposition:1 attached_pic".format(mAlbumArt)
+        param['title'] = ''
+        if mTitle is not None:
+            param['title'] = "-metadata title='{}'".format(mTitle)
+        param['artist'] = ''
+        if mArtist is not None:
+            param['artist']= "-metadata artist='{}'".format(mArtist)
         cmd = (
-            "ffmpeg -headers 'X-Radiko-Authtoken:{}' -i '{}' "
-            "-acodec copy -bsf:a aac_adtstoasc -loglevel error {}"
-        ).format(Radiko.token, m3u8, outfile)
+            "ffmpeg -headers 'X-Radiko-Authtoken:{}' -i '{}' {} {} {} {} {} {} "
+            "-codec copy -bsf:a aac_adtstoasc -loglevel error {}"
+        ).format(Radiko.token, m3u8, param['albumart'], param['album'], param['album_artist'], param['genre'], param['title'], param['artist'], outfile)
         proc = subprocess.Popen(
             cmd, shell=True, stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT, preexec_fn=os.setsid
         )
-        self.logger.debug('started subprocess: group id {}'
-                                  .format(os.getpgid(proc.pid)))
         proc.wait()
-        self.logger.debug('finish')
 
     def get_stations(self):
         res = urllib.request.urlopen(Radiko.CHANNEL_FULL_URL)
