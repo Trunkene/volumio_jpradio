@@ -59,6 +59,14 @@ $ pip3 install flask
 ```bash
 $ git clone https://github.com/Trunkene/volumio_jpradio .
 ```
+※ ↑ここ失敗しますね。面倒ですが、以下のような感じでやってみてください。
+```bash
+$ git clone https://github.com/Trunkene/volumio_jpradio ./aaa
+$ cd aaa
+$ cp -r -f -v ./* ~/
+$ cd ../
+$ rm -r -f ./aaa
+```
 
 番組情報の自動更新
 ```bash
