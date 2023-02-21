@@ -16,7 +16,7 @@ from .prog import RdkProg
 from .icymeta import IcyMetadata
 
 class Radiko():
-    LOGIN_URL = "https://radiko.jp/ap/member/login/login"
+    LOGIN_URL = "https://radiko.jp/ap/member/webapi/login"
     CHECK_URL = "https://radiko.jp/ap/member/webapi/member/login/check"
     LOGOUT_URL = "https://radiko.jp/ap/member/webapi/member/logout"
     CHANNEL_AREA_URL = "http://radiko.jp/v3/station/list/{}.xml"
